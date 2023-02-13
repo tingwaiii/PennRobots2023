@@ -6,10 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/XR_Scenes/XR_0_Connect To Multiplayer.unity
+    path: Assets/XR_Scenes/Archive/XR_0_Connect To Multiplayer.unity
     guid: 36ca7d7e2921a6342b7066f8b48484b1
   - enabled: 1
-    path: Assets/XR_Scenes/XR_1_Base XR Scene.unity
+    path: Assets/XR_Scenes/Archive/XR_1_Base XR Scene.unity
     guid: 9be4d91c63b0b73498f6777a0e200348
   - enabled: 0
     path: Assets/XR_Scenes/Archive/RAS Programming Scene 6400.unity

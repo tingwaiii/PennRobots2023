@@ -36,6 +36,7 @@ public class RobotController_Kinematics : MonoBehaviour
 
     //jeff these two things i instantiate on start...made private
     public Transform RobotTarget_WorldSpace; //this will be the camera if camera chase is on;
+    private Transform RobotTarget_RobotSpacePreviousValue;
     public Transform ToolCenterPoint_WorldSpace;
     private Transform tcp; //store the transformations of our current rob target and tool center point
 
@@ -291,7 +292,7 @@ public class RobotController_Kinematics : MonoBehaviour
             double[] axis6Range = { -400, 400 };
 
 
-             
+
 
             axisRange[0] = axis1Range;
             axisRange[1] = axis2Range;
@@ -376,29 +377,40 @@ public class RobotController_Kinematics : MonoBehaviour
         else if (movementMode == MovementMode.InverseKinematics)
         {
 
-                //>>>>>>>MANIPULATING TCP BASED ON CHANGES IN ROBOT MODEL IN UNITY
-                //define our tool data from the toolpos and toolOrient values hardcoded in
+            //>>>>>>>MANIPULATING TCP BASED ON CHANGES IN ROBOT MODEL IN UNITY
+            //define our tool data from the toolpos and toolOrient values hardcoded in
 
-                Vector3 TCPDifferencePosition2 = new Vector3(-1 * 1000f * TCPDifferencePosition.x, -1 * 1000f * TCPDifferencePosition.z, 1000f * TCPDifferencePosition.y);
-                tcp.position = TCPDifferencePosition2;
+            Vector3 TCPDifferencePosition2 = new Vector3(-1 * 1000f * TCPDifferencePosition.x, -1 * 1000f * TCPDifferencePosition.z, 1000f * TCPDifferencePosition.y);
+            tcp.position = TCPDifferencePosition2;
 
-                tcp.rotation = new Quaternion(toolOrient[1], toolOrient[2], toolOrient[3], toolOrient[0]); //unity uses x,y,z,w convention, rapid is w,x,y,z                                                                                                      
+            //original, doesn't work for rotated tcp
+            tcp.rotation = new Quaternion(toolOrient[1], toolOrient[2], toolOrient[3], toolOrient[0]); //unity uses x,y,z,w convention, rapid is w,x,y,z                                                                                                      
+            //tcp.rotation = new Quaternion(TCPDifferenceRotation.w, TCPDifferenceRotation.x, TCPDifferenceRotation.y, TCPDifferenceRotation.z); //unity uses x,y,z,w convention, rapid is w,x,y,z                                                                                                      
 
-                if (RobotTarget_WorldSpace)
-                {
-                    //convert world space target into local space of each robot
-                    RobotTarget_RobotSpace.position = RobotTarget_WorldSpace.position;//set position in world to match the robot target
-                                                                                      //RobotTarget_RobotSpace.localPosition = RobotTarget_RobotSpace.localPosition + new Vector3(TCPDifferencePosition.x, TCPDifferencePosition.y, TCPDifferencePosition.z);
+            if (RobotTarget_WorldSpace)
+            {
+                //convert world space target into local space of each robot
+                RobotTarget_RobotSpace.position = RobotTarget_WorldSpace.position;//set position in world to match the robot target
+                                                                                  //RobotTarget_RobotSpace.localPosition = RobotTarget_RobotSpace.localPosition + new Vector3(TCPDifferencePosition.x, TCPDifferencePosition.y, TCPDifferencePosition.z);
 
-                    RobotTarget_RobotSpace.rotation = RobotTarget_WorldSpace.rotation;//set position in world to match the robot target
-                }
+                RobotTarget_RobotSpace.rotation = RobotTarget_WorldSpace.rotation;//set position in world to match the robot target
+            }
 
-                //works!
+            if(RobotTarget_RobotSpacePreviousValue != RobotTarget_RobotSpace)
+            {
+                //for the robot follower, we need to not make this update unless the robot moves...
                 RobotTarget_RobotSpace.localRotation = RobotTarget_RobotSpace.localRotation * Quaternion.Inverse(TCPDifferenceRotation);
+                RobotTarget_RobotSpacePreviousValue = RobotTarget_RobotSpace;
+            }
 
-                //Debug.Log("temporary debug: robot target quat is: " + RobotTarget_RobotSpace.localRotation);
-                //<<<<<<<MANIPULATING TCP BASED ON CHANGES IN ROBOT MODEL IN UNITY
-            
+
+
+
+
+
+            //Debug.Log("temporary debug: robot target quat is: " + RobotTarget_RobotSpace.localRotation);
+            //<<<<<<<MANIPULATING TCP BASED ON CHANGES IN ROBOT MODEL IN UNITY
+
 
 
 
@@ -529,8 +541,8 @@ public class RobotController_Kinematics : MonoBehaviour
             //U Penn Robot, working here.
 
             joints[0].transform.localRotation = Quaternion.Euler(new Vector3(0f, -1 * jointAngles[0], 0f)); //y
-            joints[1].transform.localRotation = Quaternion.Euler(new Vector3(0f,  0f, jointAngles[1])); //z
-            joints[2].transform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, -1 * jointAngles[2] )); //z
+            joints[1].transform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, jointAngles[1])); //z
+            joints[2].transform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, -1 * jointAngles[2])); //z
             joints[3].transform.localRotation = Quaternion.Euler(new Vector3(jointAngles[3], 0f, 0f)); //x
             joints[4].transform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, -1 * jointAngles[4]));//z
             joints[5].transform.localRotation = Quaternion.Euler(new Vector3(-1 * jointAngles[5], 0f, 0f));//x
@@ -718,7 +730,7 @@ public class RobotController_Kinematics : MonoBehaviour
 
 
             //degs[3] = 180f - Mathf.Abs((float)degs[3]);
-            
+
             //degs[4] = 90.0f - degs[4] ;
 
             //degs 2 is too high... maybe 180

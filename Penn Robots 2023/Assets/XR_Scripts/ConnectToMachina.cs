@@ -159,7 +159,7 @@ public class ConnectToMachina : MonoBehaviour
                     slavePos = new Vector3(slavePos.x / 1000.0f, slavePos.y / 1000.0f, slavePos.z / 1000.0f);//robot units to unity units
                     slavePos = new Vector3(-1.0f * slavePos.x, slavePos.z, -1.0f * slavePos.y);//flip flop some units from robots to unity
 
-                    Debug.Log("im going to move the slave robot to: " + slavePos);
+                    Debug.Log("im going to move the follower robot to: " + slavePos);
 
                 }
 
@@ -173,7 +173,7 @@ public class ConnectToMachina : MonoBehaviour
                     slaveRot = new Quaternion(float.Parse(eachRotString[0]), float.Parse(eachRotString[1]), float.Parse(eachRotString[2]), float.Parse(eachRotString[3]));
                     slaveRot = new Quaternion(-1.0f * slaveRot.y, slaveRot.w, -1.0f * slaveRot.z, -1.0f * slaveRot.x);//flip flop some units from robots to unity
 
-                    Debug.Log("im going to rotate the slave robot to: " + slaveRot);
+                    Debug.Log("im going to rotate the follower robot to: " + slaveRot);
 
                 }
 

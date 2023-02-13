@@ -21,7 +21,8 @@ public class Robots_SendAListOfPoints : MonoBehaviour
             controllerRobot.RobotTarget_RobotSpace.rotation = robotTarget_WorldSpace.transform.rotation;//set position in world to match the robot target
 
             //send to machina...
-            GetComponent<Robots_SendInstructionToMaster>().SendToMaster();
+            //GetComponent<Robots_SendInstructionToMaster>().SendToMaster();
+            GetComponent<MachinaActionController>().GoToRobotTarget();
         }
 
     }
