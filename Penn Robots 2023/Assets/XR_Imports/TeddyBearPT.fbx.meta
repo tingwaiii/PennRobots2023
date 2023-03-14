@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 83a3bfc2913f244499e4928624f84d84
+guid: 5be35976fe2b8874eabb5488bb948c47
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
@@ -7,13 +7,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: cgaxis_models_48_04_01
-    second: {fileID: 2100000, guid: 6ab0703e9622a7f469013316693c44a7, type: 2}
+      name: Material_2
+    second: {fileID: 2100000, guid: cc0412949ee095f488a53582c957af7d, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: cgaxis_models_48_04_02
-    second: {fileID: 2100000, guid: 7292afe371bd5af4d8fe1f8d54a67035, type: 2}
+      name: Teddy_Inst
+    second: {fileID: 2100000, guid: 8d9ca6e2cfc088e4385037a7e0feaa03, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -51,7 +51,7 @@ ModelImporter:
     sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 1
+    importCameras: 0
     importLights: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
